@@ -7,12 +7,14 @@ set(SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Punto.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Vector.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Poligono.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Utils.cpp	
 )
 
 set(HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/include/GeoCPP/Punto.h
 	${CMAKE_CURRENT_SOURCE_DIR}/include/GeoCPP/Vector.h
 	${CMAKE_CURRENT_SOURCE_DIR}/include/GeoCPP/Poligono.h
+	${CMAKE_CURRENT_SOURCE_DIR}/include/GeoCPP/Utils.h
 )
 
 add_library(GeoCPP ${SOURCES} ${HEADERS})
