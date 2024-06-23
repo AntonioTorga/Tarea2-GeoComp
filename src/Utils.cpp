@@ -13,3 +13,22 @@ std::pair<int, int> get_random_pair(int min, int max)
 
     return result;
 }
+
+void Timer::startTimer()
+{
+    start = std::chrono::high_resolution_clock::now();
+    duration = 0.0;
+}
+
+void Timer::stop()
+{
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
+    duration = diff.count();
+}
+
+double Timer::getDuration() const
+{
+    return duration;
+}
+

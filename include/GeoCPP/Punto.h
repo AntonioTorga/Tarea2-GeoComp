@@ -1,17 +1,24 @@
+#ifndef PUNTO_H
+#define PUNTO_H
+
 #include <iostream>
 #include <utility>
 #include <cmath>
 #include <stack>
+#include <algorithm>
+#include <vector>
 #include "Utils.h"
 
-template <typename T>
 
+template <typename T>
 class Punto {
 	private:
 		std::pair<T, T> coords;
 
 	public:
-		Punto(T x, T y) : coords(x, y) {};
+		Punto(T x, T y) {
+			coords = std::make_pair(x, y);
+		};
 
 		double distance(Punto<T>& b)
 		{
@@ -45,6 +52,7 @@ class Punto {
 		}
 };
 
+
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Punto<T>& p)
 {
@@ -56,36 +64,59 @@ std::ostream& operator<<(std::ostream& os, const Punto<T>& p)
 template <typename T>
 int orientation(Punto<T> p, Punto<T> q, Punto<T> r)
 {
-	std::pair<T, T> p_coords = p.get_coords();
-	std::pair<T, T> q_coords = q.get_coords();
-	std::pair<T, T> r_coords = r.get_coords();
-
-	int val = (q_coords.second - p_coords.second) * (r_coords.first - q_coords.first) - (q_coords.first - p_coords.first) * (r_coords.second - q_coords.second);
-
+	T val = (q.y() - p.y()) * (r.x() - q.x() )
+		- (q.x() - p.x()) * (r.y() - q.y());
 	if (val == 0)
 		return 0; // colinear
 	return (val > 0) ? 1 : 2; // clock or counterclock wise
 }
 
-std::vector<Punto<int>> randomPoints(int amount)
-{
-	std::vector<Punto<int>> result;
+inline std::vector<Punto<long long>> createConvexPolygon(long long amount, long long space) {
+	double pi = 2 * acos(0.0);
+
+	double angle_df = 2*pi / amount, init_angle = (amount%2==0)? -angle_df / 2: pi/2;
+	
+	std::vector<Punto<long long>> result;
 	for (int i = 0; i < amount; i++) {
-		std::pair<int, int> rd_pair = get_random_pair(0, amount * 10);
-		Punto<int> newPoint(rd_pair.first, rd_pair.second);
-		result.push_back(newPoint);
+		double curr_angle = init_angle + angle_df * i;
+		Punto<long long> new_point(cos(curr_angle)*space, sin(curr_angle)*space);
+		curr_angle += angle_df;
+		result.push_back(new_point);
 	}
 	return result;
 }
 
-std::vector<Punto<int>> semiRandomPoints(int inner_amount, int outer_amount)
+inline std::vector<Punto<long long>> randomPoints(long long amount, long long space)
 {
-	std::vector<Punto<int>> result = randomPoints(inner_amount);
-	for (int i = 0; i < outer_amount; i++) {
-		std::pair<int, int> rd_pair = get_random_pair(inner_amount * 11, (inner_amount + outer_amount) * 10);
-		Punto<int> newPoint(rd_pair.first, rd_pair.second);
-		result.push_back(newPoint);
+	std::vector<Punto<long long>> result;
+	// this is because if we have amount > 4*space*space the will go on forever
+	// because it will not be able to find a space for the new dot. But, to prevent 
+	// large computation time we'll restrict it  to 2*space*space
+	
+	if (amount > 2 * space * space) return result;
+	while (result.size()<amount) {
+		std::pair<long long, long long> rd_pair = get_random_pair(0, space);
+		Punto<long long> newPoint(rd_pair.first, rd_pair.second);
+		//if (std::find(result.begin(), result.end(), newPoint) == result.end())
+		result.push_back(newPoint);	
 	}
+	return result;
+}
+
+inline std::vector<Punto<long long>> semiRandomPoints(long long amount, double outter_percentage, long long space)
+{
+	std::vector<Punto<long long>> result;
+
+	if (outter_percentage > 100) return result;
+
+	long long outter_amount = ceil(amount * (outter_percentage / 100.0));
+	long long inner_amount = amount - outter_amount;
+	std::vector<Punto<long long>> inner_points = randomPoints(inner_amount, space);
+	std::vector<Punto<long long>> outter_points = createConvexPolygon(outter_amount, space*2);
+
+	result.insert(result.end(), inner_points.begin(), inner_points.end());
+	result.insert(result.end(), outter_points.begin(), outter_points.end());
+
 	return result;
 }
 
@@ -116,3 +147,5 @@ T distSq(Punto<T> lhs, Punto<T> rhs)
 	return ((lhs.x() - rhs.x()) * (lhs.x() - rhs.x()) +
 		(lhs.y() - rhs.y()) * (lhs.y() - rhs.y()));
 }
+
+#endif // PUNTO_H

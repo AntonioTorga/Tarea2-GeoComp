@@ -1,5 +1,9 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
 #include <iostream>
 #include <cmath>
+#include <utility>
 #include "Punto.h"
 
 template <typename T>
@@ -32,6 +36,10 @@ class Vector {
 		{
 			return Vector(this->x + other.x, this->y + other.y);
 		}
+		Vector<T> operator-(const Vector<T>& other)
+		{
+			return Vector(this->x - other.x, this->y - other.y);
+		}
 		Vector<T> operator*(T scalar)
 		{
 			return Vector(this->x * scalar, this->y * scalar);
@@ -42,7 +50,7 @@ class Vector {
 		}
 		std::pair<T,T> get_coords() const 
 		{
-			return make_pair(this->x,this->y);
+			return std::make_pair(this->x,this->y);
 		}
 };
 
@@ -53,3 +61,5 @@ std::ostream& operator<<(std::ostream& os, const Vector<T>& p)
 	os << "(" << p_coords.first << "," << p_coords.second << ")";
 	return os;
 }
+
+#endif VECTOR_H
