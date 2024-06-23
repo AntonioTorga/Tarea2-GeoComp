@@ -1,3 +1,6 @@
+Para clonar e incluir el submódulo Google Test
+git clone --recurse-submodules <URL-DE-REPO>
+
 Para compilar abrir terminal en directorio build. 
 Correr cmake
 ```bash
@@ -12,8 +15,10 @@ Y ejecutamos el archivo main.exe
 ```bash
 ./main.exe
 ```
-El resultado mostrado en pantalla son las pruebas ejecutadas con Cassert.
-Para mayor claridad puede revisarse el código.
-
-El archivo main es el archivo de tests.
-Los archivos \*.cpp que no sean main.cpp están vacios, ya que, la implementación se encuentra en los archivos \*.h
+El resultado mostrado en pantalla son las pruebas de tiempo utilizadas para crear ANALISIS.pdf
+Para correr los tests hechos con Google Test abrimos la consola en el directorio Build/test/Debug y ejecutamos GeoTests.exe
+```bash
+cd Build/test/Debug
+./GeoTests.exe
+```
+Los resultados de estos tests apareceran en la consola.

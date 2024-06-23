@@ -29,7 +29,7 @@ class Punto {
 			return std::sqrt(diff_x*diff_x + diff_y*diff_y);
 		}
 
-		bool operator==(const Punto<T>& other)
+		bool operator==(const Punto<T>& other) const
 		{
 			std::pair<T,T> other_coords = other.get_coords();
 

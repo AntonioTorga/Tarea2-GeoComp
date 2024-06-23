@@ -42,7 +42,7 @@ int main() {
 		std::cout << "--Different convex hull points percentage tests --" << std::endl;
 		for (int j = 0; j < PCTG_TESTS.size(); j++) {
 			std::cout << "Creating cloud of " << N_TESTS[i] << " random points with " << PCTG_TESTS[j] << "% of points on the CH." << std::endl;
-			std::vector<Punto<long long>> semi_random_cloud = semiRandomPoints(N_TESTS[i] ,PCTG_TESTS[j], N_TESTS[i]*40);
+			std::vector<Punto<long long>> semi_random_cloud = semiRandomPoints(N_TESTS[i] ,PCTG_TESTS[j], N_TESTS[i]*1000);
 
 			timer.startTimer();
 			Poligono<long long> gs_result_src = grahamScan(semi_random_cloud);
