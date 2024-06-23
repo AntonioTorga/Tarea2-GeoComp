@@ -1,5 +1,7 @@
 Para clonar e incluir el submódulo Google Test
+```bash
 git clone --recurse-submodules <URL-DE-REPO>
+```
 
 Para compilar abrir terminal en directorio build. 
 Correr cmake
